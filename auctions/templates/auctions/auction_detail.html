@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    {{auction.title}}
+    {{auction.created_by}}
+    {{auction.description}}
+    {{auction.starting_price}}
+    {{auction.current_price}}
+    {{auction.closed}}
+    {{auction.image_url}}
+    {{auction.created_date}}
+    {{auction.bid.bid_price}}
+    {{auction.bid.bid_date}}
+    {{auction.title}}
+    {{auction.title}}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h2>Active Listings</h2>
+
+
+        {% for items in auction %}
+            {{items.title}} <br>
+            {{items.current_price}}
+            {{items.created_by}}
+        {% endfor %}
+
+
+    TODO
+{% endblock %}
