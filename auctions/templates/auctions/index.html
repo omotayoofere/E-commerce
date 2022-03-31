@@ -6,8 +6,10 @@
 
         {% for items in auction %}
             {{items.title}} <br>
-            {{items.current_price}}
-            {{items.created_by}}
+            {{items.starting_price}} <br>
+            {{items.created_by}} <br>
+            {{items.created_date}} <br>
+            <img src="{{items.image_url}}" alt="">
         {% endfor %}
 
 

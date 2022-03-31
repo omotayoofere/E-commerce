@@ -1,16 +1,52 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    {{auction.title}}
-    {{auction.created_by}}
-    {{auction.description}}
-    {{auction.starting_price}}
-    {{auction.current_price}}
-    {{auction.closed}}
-    {{auction.image_url}}
-    {{auction.created_date}}
-    {{auction.bid.bid_price}}
-    {{auction.bid.bid_date}}
-    {{auction.title}}
-    {{auction.title}}
+
+    {% if user.is_authenticated and request.user.id == auction.created_by.id %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="button" class="btn btn-danger" value="Close auction" name="close_auction">
+        </form>
+    {% endif %}
+
+    {% if user.is_authenticated and request.user.id != auction.created_by.id %}
+
+        {% csrf_token %}
+
+        <form action="" method="post">
+            
+            {% if on_watchlist %}
+                <input type="submit" class="btn btn-danger" value="Remove from watchlist" >
+                <input type="hidden" name="on_watchlist" value="True">
+            {% else %}
+                <input type="submit" class="btn btn-success" value="Add to watchlist" >
+                <input type="hidden" name="on_watchlist" value="False">
+            {% endif %}
+
+            <input type="hidden" name="next" id="">
+            <input type="hidden" name="auction_id" id="{{auction.id}}">
+
+        </form>
+
+    {% endif %}
+        
+
+
+
+
+    {{auction.title}} <br>
+    {{auction.created_by}} <br>
+    {{auction.description}} <br>
+    {{auction.starting_price}} <br>
+    {{auction.current_price}} <br>
+    {{auction.closed}} <br>
+    <img src="{{auction.image_url}}" alt=""> <br>
+    {{auction.created_date}} <br>
+
+    <form action="" method="post">
+        {{form}}
+        <input type="submit">
+    </form>
+
+
 {% endblock %}

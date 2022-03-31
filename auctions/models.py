@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.exceptions import ValidationError
 
 
 class User(AbstractUser):
@@ -28,7 +29,6 @@ class Auction(models.Model):
     title = models.CharField(max_length=128, blank=False)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_by")
     description = models.TextField(blank=False)
-    starting_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.0)
     current_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.0)
     category = models.CharField(max_length=5, choices=CATEGORY, default=FASHION)
     closed = models.BooleanField(default=False)
@@ -38,9 +38,10 @@ class Auction(models.Model):
     def __str__(self):
         return f"Auction Title: {self.title}"
 
+
 class Bid(models.Model):
-    auction = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="bid")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bid")
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     bid_price = models.DecimalField(max_digits=11, decimal_places=2, default=0.0)
     bid_date = models.DateTimeField(auto_now_add=True)
 
@@ -48,8 +49,8 @@ class Bid(models.Model):
         return f"{self.bid_price}"
 
 class Comment(models.Model):
-    aution = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="comment")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comment")
+    aution = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField(blank=False)
     comment_date = models.DateTimeField(auto_now_add=True)
 
@@ -58,8 +59,8 @@ class Comment(models.Model):
 
 
 class WatchList(models.Model):
-    aution = models.ForeignKey(Auction, on_delete=models.CASCADE, related_name="watch_list")
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="watch_list")
+    aution = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.aution}"
