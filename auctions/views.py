@@ -11,11 +11,9 @@ from . import forms
 def index(request):
 
     auction = models.Auction.objects.all()
+    return render(request, "auctions/index.html", {
+        "auction":auction})
 
-    if auction['closed'] == False:
-        return render(request, "auctions/index.html", context=auction)
-    else:
-        return render(request, "auctions/closed.html", context=auction)
 
 
 def create_listing(request):
@@ -43,15 +41,14 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
 
         # Check if authentication successful
-        if user is not None:
+        if user:
             login(request, user)
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("auctions:index"))
         else:
             return render(request, "auctions/login.html", {
                 "message": "Invalid username and/or password."
             })
-    else:
-        return render(request, "auctions/login.html")
+    return render(request, "auctions/login.html")
 
 
 def logout_view(request):
@@ -161,6 +158,7 @@ def auction_details(request, pk):
 
 
     context = {
+        "auction": auction,
         "bid_count": bid_count,
         "comments": comments,
         "bid_message": bid_message,

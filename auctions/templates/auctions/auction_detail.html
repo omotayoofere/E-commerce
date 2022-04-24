@@ -10,11 +10,56 @@
     {% endif %}
 
     {% if user.is_authenticated and request.user.id != auction.created_by.id %}
+    
+        {{auction.title}} <br>
+        {{auction.created_by}} <br>
+        {{auction.description}} <br>
+        {{auction.starting_price}} <br>
+        {{auction.closed}} <br>
+        <img src="{{auction.image_url}}" alt=""> <br>
+        {{auction.created_date}} <br>
+    
+        <!-- Bids -->
+        <!-- Get old bids under auctions -->
+        <!-- users that made bids -->
+        {% if bid_count != 0 %}
 
-        {% csrf_token %}
+            <small> There are {{bid_count}} bids so far. {{bid_message}} </small>
 
+        {% else%}
+            <small>No bids so far</small>
+
+        {% endif %}
+        <!-- The form for user to place a new bid -->
         <form action="" method="post">
-            
+            {% csrf_token %}
+            {{bid}}
+
+            <input type="submit" name="" id="">
+            <input type="hidden" name="next" id="{{request.path}}">
+            <input type="hidden" name="aution_id" id="{{aution.id}}">
+
+        </form>
+
+        <!-- Comments -->
+        <!-- Get old comments and Users that made it -->
+        <!-- Comments' time stamp -->
+
+        <!-- The form for user to make comments -->
+        <form action="" method="post">
+            {% csrf_token %}
+            {{comment}}
+
+            <input type="submit" name="" id="">
+            <input type="hidden" name="next" id="{{request.path}}">
+            <input type="hidden" name="aution_id" id="{{aution.id}}">
+
+        </form>
+
+
+        <!-- The form for user to add items to watch list -->
+        <form action="" method="post">
+            {% csrf_token %}
             {% if on_watchlist %}
                 <input type="submit" class="btn btn-danger" value="Remove from watchlist" >
                 <input type="hidden" name="on_watchlist" value="True">
@@ -22,10 +67,6 @@
                 <input type="submit" class="btn btn-success" value="Add to watchlist" >
                 <input type="hidden" name="on_watchlist" value="False">
             {% endif %}
-
-            <input type="hidden" name="next" id="">
-            <input type="hidden" name="auction_id" id="{{auction.id}}">
-
         </form>
 
     {% endif %}
@@ -34,14 +75,6 @@
 
 
 
-    {{auction.title}} <br>
-    {{auction.created_by}} <br>
-    {{auction.description}} <br>
-    {{auction.starting_price}} <br>
-    {{auction.current_price}} <br>
-    {{auction.closed}} <br>
-    <img src="{{auction.image_url}}" alt=""> <br>
-    {{auction.created_date}} <br>
 
     <form action="" method="post">
         {{form}}

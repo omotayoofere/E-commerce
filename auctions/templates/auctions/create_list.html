@@ -3,7 +3,18 @@
 {% block body %}
     <form action="{% url 'auctions:create-list' %}" method="post">
         {% csrf_token %}
-        {{form}}
+        <div class="col-md-3">
+            {{form.title.errors}}
+            <label>Title:</label>
+            {{ form.title }}
+        </div> <br>
+
+        <div class="col-md-3">
+            {{form.description.errors}}
+            <label>Description:</label>
+            {{ form.description }}
+        </div> <br>
+
         <input type="submit">
     </form>
 {% endblock %}
